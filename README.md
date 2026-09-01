@@ -1,6 +1,6 @@
 # 🚀 Project Name
 
-![Python-Projects](https://github.com/sergio-a-juarez-1/my-agent-skills/blob/main/kcs-par-reviewer/assets/c.gif?raw=true)
+![Python-Projects](https://github.com/sergio-a-juarez-1/my-agent-skills/blob/main/kcs-par-reviewer/assets/python.gif?raw=true)
 
 These Python Applications are designed to efficiently process and analyze real-time data streams, significantly reducing development cycles and latency issues faced by users in high-frequency data environments.
 
