@@ -52,4 +52,4 @@ Interact with the interface using standard directional keyboard mapping:
 * Consuming a turtle target expands the snake body length and increases your core score by +1.
 * Striking any outer screen boundary ($X/Y \ge \pm290$) triggers an instant Game Over.
 * Colliding with any trailing segments within the body array triggers an instant Game Over.
-Use code with caution.Would you like to expand this with an added section explaining how the coordinate grid system handles the screen limits, or instructions on implementing a persistent High Score tracking system?
+
