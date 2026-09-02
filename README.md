@@ -1,4 +1,4 @@
-# 🚀 Project Name
+# 🚀 Python Projects
 
 ![Python-Projects](https://github.com/sergio-a-juarez-1/my-agent-skills/blob/main/kcs-par-reviewer/assets/python.gif?raw=true)
 
