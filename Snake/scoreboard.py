@@ -10,18 +10,18 @@ class Scoreboard(Turtle):
         self.penup()
         self.score = 0
         self.goto(x=0, y=260)
-        self.update_scorebaord()
+        self.update_scoreboard() # Typo fixed here
         self.hideturtle()
 
-    def update_scorebaord(self):
+    def update_scoreboard(self): # Typo fixed here
         self.write(f"Score: {self.score}", align=ALIGNMENT, font=FONT)
 
     def game_over(self):
         self.goto(x=0, y=0)
         self.color('red')
-        self.write(f"GAME OVER", align=ALIGNMENT, font=("Times New Roman", 30, 'bold'))
+        self.write("GAME OVER", align=ALIGNMENT, font=("Times New Roman", 30, 'bold'))
 
     def increase_score(self):
         self.score += 1
         self.clear()
-        self.update_scorebaord()        
+        self.update_scoreboard() # Typo fixed here
