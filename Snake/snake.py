@@ -6,7 +6,6 @@ DOWN = 270
 RIGHT = 0
 LEFT = 180
 
-
 class Snake:
     def __init__ (self):
         self.segments = []
@@ -14,6 +13,8 @@ class Snake:
         self.head = self.segments[0]
         self.head.shape("arrow")
         self.head.color("spring green")
+        # Track the actual direction of the last processed movement frame
+        self.current_direction = RIGHT 
     
     def create_snake(self):
         for position in STARTING_POSITIONS:
@@ -25,23 +26,24 @@ class Snake:
             new_y = self.segments[seg_num -1].ycor()
             self.segments[seg_num].goto(new_x,new_y)
         self.head.forward(MOVE_DISTANCE)
+        # Update the direction lock *only* after a successful physical move
+        self.current_direction = self.head.heading() 
     
     def up(self):
-        if self.head.heading() != DOWN:
+        if self.current_direction != DOWN:
             self.head.setheading(UP)
 
     def down(self):
-        if self.head.heading() != UP:
+        if self.current_direction != UP:
             self.head.setheading(DOWN)
 
     def left(self):
-        if self.head.heading() != RIGHT:
+        if self.current_direction != RIGHT:
             self.head.setheading(LEFT)
 
     def right(self):
-        if self.head.heading() != LEFT:
+        if self.current_direction != LEFT:
             self.head.setheading(RIGHT)
-
     
     def add_segments(self, position):
         snake = Turtle("square")
@@ -52,4 +54,3 @@ class Snake:
     
     def extend(self):
         self.add_segments(self.segments[-1].position())
-        
