@@ -21,13 +21,13 @@ screen.onkey(snake.down, 'Down')
 screen.onkey(snake.left, 'Left')
 screen.onkey(snake.right, 'Right')
 
-
-
 game_on = True
 while game_on:
     screen.update()
     time.sleep(0.1)
     snake.move()
+    
+    # Hitbox distance check can now be a bit stricter or cleaner due to grid locking
     if snake.head.distance(food) < 15:
         food.refresh()
         snake.extend()
@@ -36,6 +36,7 @@ while game_on:
     if snake.head.xcor() > WALL or snake.head.xcor() < -WALL or snake.head.ycor() > WALL or snake.head.ycor() < -WALL:
         game_on = False
         scoreboard.game_over()
+        
     for segment in snake.segments[1:]:
         if snake.head.distance(segment) < 15:
             game_on = False
