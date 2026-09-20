@@ -1,8 +1,11 @@
-from turtle import Turtle
 import random
+from turtle import Turtle
 
-turtle_colors = ['lawn green','dark green', 'burlywood', 'white', 'red', "saddle brown", "lime green", "yellow", "cyan",
-"navy", "olive", 'dark khaki', "olive drab", "dark goldenrod"]
+turtle_colors = [
+    "lawn green", "dark green", "burlywood", "white", "red", "saddle brown",
+    "lime green", "yellow", "cyan", "navy", "olive", "dark khaki", 
+    "olive drab", "dark goldenrod"
+]
 
 class Food(Turtle):
     def __init__(self):
@@ -10,12 +13,20 @@ class Food(Turtle):
         self.shape("turtle")
         self.penup()
         self.speed("fastest")
-        self.refresh()
+        self.refresh([])  
 
-    def refresh(self):
-        self.color(random.choice(turtle_colors))
-        # Ensure x and y coordinates are strict multiples of 20 
-        # range(-260, 260) yields multiples: -260, -240 ... 0 ... 240, 260
-        random_x = random.randint(-13, 13) * 20
-        random_y = random.randint(-13, 13) * 20
-        self.goto(random_x, random_y)
+    def refresh(self, snake_segments):
+        while True:
+            # Safe width limits (-13 to 13)
+            random_x = random.randint(-13, 13) * 20
+            # Safe height limits: Upper constraint capped at 10 to keep away from the scoreboard area
+            random_y = random.randint(-13, 10) * 20
+            
+            # Distance array lookup loop mapping
+            overlapping = any(seg.distance(random_x, random_y) < 15 for seg in snake_segments)
+            
+            if not overlapping:
+                self.color(random.choice(turtle_colors))
+                self.goto(random_x, random_y)
+                break
+

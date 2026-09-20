@@ -1,20 +1,25 @@
-from turtle import Screen
-from snake import Snake
-from food import Food
-from scoreboard import Scoreboard
 import time
+from turtle import Screen
+from food import Food
+from snake import Snake
+from scoreboard import Scoreboard
 
+# Initialize screen environment
 screen = Screen()
-screen.setup(height=600, width=600)
+screen.setup(height=800, width=800)
 screen.bgcolor("black")
 screen.title('🐍 SNAKE 🐍')
 screen.tracer(0)
-WALL = 290
 
+# Speed control tracking variables
+game_speed = 0.1 
+
+# Instantiating entity classes
 snake = Snake()
 food = Food()
 scoreboard = Scoreboard()
 
+# Event listeners binding keyboard keys
 screen.listen()
 screen.onkey(snake.up, 'Up')
 screen.onkey(snake.down, 'Down')
@@ -24,22 +29,34 @@ screen.onkey(snake.right, 'Right')
 game_on = True
 while game_on:
     screen.update()
-    time.sleep(0.1)
+    time.sleep(game_speed)
     snake.move()
     
-    # Hitbox distance check can now be a bit stricter or cleaner due to grid locking
+    # Hitbox distance check
     if snake.head.distance(food) < 15:
-        food.refresh()
+        food.refresh(snake.segments)
         snake.extend()
         scoreboard.increase_score()
+        
+        # Smoothly increase game acceleration speed
+        if game_speed > 0.03:
+            game_speed -= 0.002 
     
-    if snake.head.xcor() > WALL or snake.head.xcor() < -WALL or snake.head.ycor() > WALL or snake.head.ycor() < -WALL:
+    # DYNAMIC BOUNDARY FIX: Calculate visual edges based on real window proportions
+    half_width = screen.window_width() / 2 - 20
+    half_height = screen.window_height() / 2 - 20
+    
+    # Boundary tracking conditional statement
+    if abs(snake.head.xcor()) > half_width or abs(snake.head.ycor()) > half_height:
         game_on = False
         scoreboard.game_over()
         
-    for segment in snake.segments[1:]:
-        if snake.head.distance(segment) < 15:
-            game_on = False
-            scoreboard.game_over()
+    # Self-collision optimization loop
+    if len(snake.segments) >= 5:
+        for segment in snake.segments[1:]:
+            if snake.head.distance(segment) < 15:
+                game_on = False
+                scoreboard.game_over()
     
 screen.exitonclick()
+
