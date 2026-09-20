@@ -34,7 +34,7 @@ mkdir conversion && cd conversion
 git init
 
 # 2. Add your multi-project repo as the remote origin
-git remote add origin https://github.com
+git remote add origin https://github.com/sergio-a-juarez-1/Python-Projects.git
 
 # 3. Enable sparse-checkout and tell Git exactly which folder you want
 git sparse-checkout set Conversion_Program
