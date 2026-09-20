@@ -37,7 +37,7 @@ git init
 git remote add origin https://github.com
 
 # 3. Enable sparse-checkout and tell Git exactly which folder you want
-git sparse-checkout set Conversion-Program
+git sparse-checkout set Conversion_Program
 
 # 4. Pull down only that folder's files
 git pull origin main
