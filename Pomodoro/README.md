@@ -4,6 +4,17 @@ A slick, desktop-based productivity application built in Python using the `tkint
 
 ---
 
+## 🛠️ Refactored Architecture & Efficiency Updates
+
+This updated version stabilizes background loop behaviors and fixes environment vulnerabilities found in legacy implementations:
+
+*   **Multi-Trigger Lockout (`is_running`):** Implements a state-tracking toggle preventing users from creating stacking overlay loops by clicking "Start" repeatedly.
+*   **Dynamic OS Path Mapping:** Drops hardcoded system absolute lookups in favor of safe relative workspace indexing (`os.path.join`), preventing file-not-found system breaks.
+*   **Asset Fault Tolerance:** Built-in structural try-except fallback draws a procedural geometric canvas tomato vector layout if the binary source `.png` asset is unavailable.
+*   **Clean String Conversions:** Replaced standard manual condition parsing with native zero-padded format expressions (`:02d`) within timer elements.
+
+---
+
 ## 🚀 Features
 
 *   **Classic Interval Flow**: Automatic cycling between 25-minute work rounds, 5-minute short breaks, and a 20-minute long break after 4 rounds.
@@ -13,43 +24,52 @@ A slick, desktop-based productivity application built in Python using the `tkint
 
 ---
 
-## 🛠️ Installation
+## 🛠️ Getting Started & Installation
 
 ### 1. Prerequisites
-Ensure you have **Python 3.x** installed. Tkinter typically comes pre-installed with standard Python distributions.
+Ensure you have **Python 3.10+** installed. Tkinter typically comes pre-installed with standard Python distributions.
 
 If you are on a Linux distribution and missing Tkinter, install it via your package manager:
 ```bash
 sudo apt-get install python3-tk
 ```
 
-### 2. File Architecture
-Set up your local project directory as follows:
-```text
-pomodoro-app/
-├── tomato.png      # The application logo image
-└── main.py         # The core Python application script
+### 2. Isolate the Project (Sparse-Checkout)
+If you only want to download this specific tool without pulling down the entire `Python-Projects` monorepo, follow these steps to initialize a targeted local repository:
+
+```bash
+# 1. Initialize an empty local repository
+mkdir pomodoro-app && cd pomodoro-app
+git init
+
+# 2. Add your multi-project repo as the remote origin
+git remote add origin https://github.com/sergio-a-juarez-1/Python-Projects.git
+
+# 3. Enable sparse-checkout and tell Git exactly which folder you want
+git sparse-checkout set Pomodoro
+
+# 4. Pull down only that folder's files
+git pull origin main
 ```
 
 ---
 
 ## 💻 Usage
 
-1. Save the source snippet code into a file named `main.py` inside your project directory.
-2. Place your `tomato.png` icon asset in the same workspace directory (or update the file path reference on line 52 inside `main.py`).
-3. Fire up the application terminal instance:
+Navigate into your isolated project directory and fire up the application terminal instance:
 
 ```bash
+cd Pomodoro
 python main.py
 ```
 
 ### App Mechanics
-*   **Start**: Kicks off the timer countdown mechanism.
-*   **Reset**: Instantly resets the state back to zero, clears checks, and halts active loops.
+*   **Start**: Kicks off the timer countdown mechanism. The lockout engine blocks rapid, accidental button presses.
+*   **Reset**: Instantly flushes internal session counts back to zero, clears checks, and halts active clock cycles.
 
 ---
 
-## ⚙️ Configuration constants
+## ⚙️ Configuration Constants
 
 You can easily adjust the cycle times directly near the top of `main.py`:
 
@@ -59,3 +79,4 @@ WORK_MIN = 25 * 60          # 25-minute focus periods
 SHORT_BREAK_MIN = 5 * 60    # 5-minute short breathing periods
 LONG_BREAK_MIN = 20 * 60    # 20-minute restorative breaks
 ```
+
