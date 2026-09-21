@@ -4,18 +4,18 @@ import string
 import sys
 import requests
 
-# 1. Fetch and cleanly decode the word list (eliminates the raw bytes slicing bug)
+# 1. Fetch and cleanly decode the word list 
 WORD_SITE = "https://www.mit.edu/~ecprice/wordlist.10000"
 try:
     response = requests.get(WORD_SITE, timeout=10)
     response.raise_for_status()
-    # Decode directly from bytes to string to remove b'' wrappers
+    # Decode directly from bytes to string 
     WORDS = [word.decode("utf-8") for word in response.content.splitlines()]
 except requests.RequestException as e:
     print(f"Error fetching the word list: {e}")
     sys.exit(1)
 
-# 2. Secure configuration via Environment Variables (Fallback to placeholders)
+# 2. Secure configuration via Environment Variables 
 TOKEN = os.environ.get("OKTA_API_TOKEN", "[Replace-With-Token]")
 TENANT = os.environ.get("OKTA_TENANT_URL", "https://[REPLACE].okta.com")
 
