@@ -7,7 +7,8 @@ TOKEN = os.environ.get("OKTA_API_TOKEN", "[REPLACE]")
 TENANT_URL = os.environ.get("OKTA_TENANT_URL", "https://[REPLACE].okta.com")
 
 if TOKEN == "[REPLACE]" or "[REPLACE]" in TENANT_URL:
-    print("Warning: Please set your OKTA_API_TOKEN and OKTA_TENANT_URL environment variables.")
+    print("Error: Missing credentials. Please set your OKTA_API_TOKEN and OKTA_TENANT_URL environment variables.")
+    sys.exit(1)
 
 # Clean up base URL string formatting
 BASE_URL = TENANT_URL.rstrip("/")
@@ -63,7 +64,8 @@ def deactivate_user(user_id, display_name):
 def reactivate_user(user_id, display_name):
     """Reactivates a deprovisioned user account."""
     url = f"{BASE_URL}/api/v1/users/{user_id}/lifecycle/activate"
-    params = {"sendEmail": "false"}
+    # Passed as Python native boolean instead of a string literal
+    params = {"sendEmail": False} 
     try:
         r = requests.post(url, headers=HEADERS, params=params, timeout=10)
         r.raise_for_status()
