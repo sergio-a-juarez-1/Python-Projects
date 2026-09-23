@@ -10,13 +10,15 @@ Because the Okta API requires active accounts to be transitioned into a `DEPROVI
 * **Smart Lifecycle Routing:** Dynamically adapts its operational paths based on the target user's current account state (`ACTIVE`, `STAGED`, `DEPROVISIONED`, etc.).
 * **Automated Two-Step Purges:** Safely deactivates active profiles before firing subsequent deletion calls to bypass strict Okta security constraints.
 * **Safe Account Restoration:** Provides a quick pathway to safely reactivate dormant or deprovisioned user bases.
-* **Production-Safe Engine:** Replaces hazardous recursion models with stable control loops and extracts sensitive API details from environmental variables to prevent credential exposure.
+* **Production-Safe Engine:** Replaces hazardous recursion models with stable control loops and extracts sensitive API details from environment variables to prevent credential exposure.
+* **Strict Type Safety:** Pass parameters using native Python booleans to eliminate malformed query string serialization bugs.
+* **Fail-Fast Credential Guard:** Checks environment configurations at startup and halts execution before running any interactive scripts if environment configurations are missing.
 
 ## Prerequisites
 
-* Python 3.6+
-* An active Okta Developer, Preview, or Enterprise Tenant
-* An Okta API Token (SSWS token) with permissions to modify and delete user accounts
+* Python 3.6+ [1]
+* An active Okta Developer, Preview, or Enterprise Tenant [1]
+* An Okta API Token (SSWS token) with permissions to modify and delete user accounts [1]
 
 ## Installation
 
@@ -35,13 +37,6 @@ Inject your secure credentials straight into your current terminal process conte
 ```bash
 export OKTA_API_TOKEN="your_ssws_token_here"
 export OKTA_TENANT_URL="https://okta.com"
-```
-
-### Option B: Local Code Fallback Configuration
-Alternatively, open the script manually and insert your deployment details directly into the default variables at the top of the file:
-```python
-TOKEN = os.environ.get("OKTA_API_TOKEN", "YOUR_OKTA_API_TOKEN")
-TENANT_URL = os.environ.get("OKTA_TENANT_URL", "https://okta.com")
 ```
 
 ## Usage
