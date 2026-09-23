@@ -1,11 +1,11 @@
 import os
-import random
+import secrets  # Cryptographically secure randomness
 import string
 import sys
 import requests
 
 # 1. Fetch and cleanly decode the word list 
-WORD_SITE = "https://www.mit.edu/~ecprice/wordlist.10000"
+WORD_SITE = "https://mit.edu"
 try:
     response = requests.get(WORD_SITE, timeout=10)
     response.raise_for_status()
@@ -27,7 +27,8 @@ headers = {
     "Accept": "application/json",
     "Content-Type": "application/json"
 }
-my_params = {"activate": "true"}  # Okta API handles booleans as string parameters best
+# requests automatically serializes True to "true" in query parameters
+my_params = {"activate": True}  
 
 # 3. Prompt user for input
 try:
@@ -38,19 +39,23 @@ except ValueError:
 
 # 4. Process user generation loop
 for n in range(number):
-    fn = random.choice(WORDS).lower()
-    ln = random.choice(WORDS).lower()
+    # secrets.choice ensures non-predictable name combinations
+    fn = secrets.choice(WORDS).lower()
+    ln = secrets.choice(WORDS).lower()
     
-    # Generate a strong password safely
+    # Generate a cryptographically strong password safely
     password_chars = string.ascii_letters + string.digits + string.punctuation
-    password_value = "".join(random.choice(password_chars) for _ in range(20))
+    password_value = "".join(secrets.choice(password_chars) for _ in range(20))
+    
+    # Changed domain from mailinator.com to a safe example.com placeholder
+    test_email = f"{fn}.{ln}@example.com"
     
     body = {
         "profile": {
             "firstName": fn.capitalize(),
             "lastName": ln.capitalize(),
-            "login": f"{fn}.{ln}@mailinator.com",
-            "email": f"{fn}.{ln}@mailinator.com",
+            "login": test_email,
+            "email": test_email,
         },
         "credentials": {
             "password": {"value": password_value}
@@ -59,7 +64,7 @@ for n in range(number):
     
     # Send request and catch failures
     try:
-        url = f"{TENANT}/api/v1/users"
+        url = f"{TENANT.rstrip('/')}/api/v1/users"
         r = requests.post(url, headers=headers, params=my_params, json=body, timeout=10)
         r.raise_for_status()
         
